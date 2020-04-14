@@ -6,8 +6,6 @@ var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var app = express();
 
-var port = process.env.PORT;
-
 
 app.use('/public',express.static(__dirname + '/public'));
 hbs.registerPartials(__dirname + '/views/partials');
