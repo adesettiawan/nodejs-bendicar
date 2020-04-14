@@ -4,9 +4,10 @@
   "description": "Crud Node.js",
   "main": "index.js",
   "scripts": {
+    "start": "node server"
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "M Fikri",
+  "author": "Ade Setiawan",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
