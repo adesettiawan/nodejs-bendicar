@@ -1,0 +1,175 @@
+{{> header}} 
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid">
+            <h3 class="mt-4"></h3>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active"><h4>Tabel Data Petugas</h4></li>
+            </ol>
+            <div class="card mb-4">
+                <div class="card-header"><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModalAdd"> <i class="fas fa-plus fa-sm"></i> Tambah Data</button></div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="mytable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Id Denda</th>
+                                    <th scope="col">Nama Denda</th>
+                                    <th scope="col">Harga Denda</th>
+                                    <th scope="col">Keterangan</th>
+                                    <th colspan="3" scope="col">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each results}}
+                               <tr>
+                                 <td>{{id_denda}}</td>
+                                 <td>{{nama_denda}}</td>
+                                 <td>{{harga_denda}}</td>
+                                 <td>{{ket}}</td>
+                                 <td>
+                                   <a href="javascript:void(0);" class="btn btn-sm btn-info edit mb-1"
+                                   data-id="{{ id_denda }}" data-nama_denda="{{ nama_denda }}" data-harga_denda="{{ harga_denda }}"
+                                   data-ket="{{ ket }}"><i class="fa fa-pencil-alt"></i></a><br>
+                                   <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="{{ id_denda }}"><i class="fa fa-trash-alt"></i></a>
+                                 </td>
+                               </tr>
+                               {{/each}}
+                             </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+    </main>
+
+    	<!-- Menambahkan data Modal-->
+	  <form action="/save_denda" method="post">
+        <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+           <div class="modal-content">
+             <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Input Data Denda</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+               </button>
+             </div>
+             <div class="modal-body">
+               <div class="form-group">
+                   <label> Id Denda</label>
+                   <input type="text" name="id_denda" class="form-control" required>
+               </div>
+
+               <div class="form-group">
+                 <label> Nama Denda</label>
+                 <input type="text" name="nama_denda" class="form-control" required>
+               </div>
+
+               <div class="form-group">
+                 <label> Harga Denda</label>
+                 <input type="text" name="harga_denda" class="form-control" required>
+               </div>
+
+               <div class="form-group">
+                  <label> Keterangan</label>
+                  <input type="text" name="ket" class="form-control" required>
+               </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+            </div>
+           </div>
+         </div>
+        </div>
+	 </form>
+
+     <!-- Edit Data Modal-->
+   <form action="/update_denda" method="post">
+    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">Edit Data Denda</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <div class="modal-body">
+           <div class="form-group">
+               <label>Nama Denda</label>
+               <input type="text" name="nama_denda" class="form-control nama_denda" required>
+           </div>
+
+           <div class="form-group">
+               <label>Harga Denda</label>
+               <input type="text" name="harga_denda" class="form-control harga_denda" required>
+           </div>
+
+           <div class="form-group">
+              <label>Keterangan</label>
+              <input type="text" name="ket"class="form-control ket" required>
+        </div>
+        </div>
+
+         <div class="modal-footer">
+           <input type="hidden" name="id_denda" class="id_denda" required>
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           <button type="submit" class="btn btn-primary">Update</button>
+         </div>
+       </div>
+     </div>
+    </div>
+</form>
+
+  <!-- Hapus Data Modal-->
+    <form id="add-row-form" action="/delete_denda" method="post">
+       <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Hapus Data Denda</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                 </div>
+
+                 <div class="modal-body">
+                    <strong>Anda yakin akan menghapus data ini?</strong>
+                 </div>
+
+                 <div class="modal-footer">
+                    <input type="hidden" name="id_denda" class="form-control id_denda2" required>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Delete</button>
+                 </div>
+            </div>
+          </div>
+       </div>
+   </form>
+
+<script src="/public/js/jquery-3.3.1.js"></script>
+<script>
+ $(document).ready(function(){
+         //menampilkan modal untuk edit data
+   $('#mytable').on('click','.edit',function(){
+     var id_denda= $(this).data('id');
+     var nama_denda = $(this).data('nama_denda');
+     var harga_denda = $(this).data('harga_denda');
+     var ket = $(this).data('ket');
+     $('#EditModal').modal('show');
+     $('.nama_denda').val(nama_denda);
+     $('.harga_denda').val(harga_denda);
+     $('.ket').val(ket);
+     $('.id_denda').val(id_denda);
+   });
+         //menampilkan modal untuk hapus data
+  $('#mytable').on('click','.delete',function(){
+     var id_denda = $(this).data('id');
+     $('#DeleteModal').modal('show');
+     $('.id_denda2').val(id_denda);
+   });
+
+ });
+</script>
+
+{{> footer}}

@@ -1,0 +1,175 @@
+{{> header}} 
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid">
+            <h3 class="mt-4"></h3>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active"><h4>Tabel Data Petugas</h4></li>
+            </ol>
+            <div class="card mb-4">
+                <div class="card-header"><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModalAdd"> <i class="fas fa-plus fa-sm"></i> Tambah Data</button></div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="mytable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">No. Pol Kendaraan</th>
+                                    <th scope="col">Jenis Kendaraan</th>
+                                    <th scope="col">Merek Kendaraan</th>
+                                    <th scope="col">Harga Sewa</th>
+                                    <th colspan="3" scope="col">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each results}}
+                               <tr>
+                                 <td>{{no_pol}}</td>
+                                 <td>{{jenis}}</td>
+                                 <td>{{merek}}</td>
+                                 <td>{{harga_sewa}}</td>
+                                 <td>
+                                   <a href="javascript:void(0);" class="btn btn-sm btn-info edit mb-1"
+                                   data-id="{{ no_pol }}" data-jenis="{{ jenis }}" data-merek="{{ merek }}"
+                                   data-harga_sewa="{{ harga_sewa }}"><i class="fa fa-pencil-alt"></i></a><br>
+                                   <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="{{ no_pol }}"><i class="fa fa-trash-alt"></i></a>
+                                 </td>
+                               </tr>
+                               {{/each}}
+                             </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+    </main>
+
+    	<!-- Menambahkan data Modal-->
+	  <form action="/save_kendaraan" method="post">
+        <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+           <div class="modal-content">
+             <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Input Data Kendaraan</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+               </button>
+             </div>
+             <div class="modal-body">
+               <div class="form-group">
+                   <label> No. Pol Kendaraan</label>
+                   <input type="text" name="no_pol" class="form-control" required>
+               </div>
+
+               <div class="form-group">
+                 <label> Jenis Kendaraan</label>
+                 <input type="text" name="jenis" class="form-control" required>
+               </div>
+
+               <div class="form-group">
+                 <label> Merek Kendaraan</label>
+                 <input type="text" name="merek" class="form-control" required>
+               </div>
+
+               <div class="form-group">
+                  <label> Harga Sewa</label>
+                  <input type="text" name="harga_sewa" class="form-control" required>
+               </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+            </div>
+           </div>
+         </div>
+        </div>
+	 </form>
+
+     <!-- Edit Data Modal-->
+   <form action="/update_kendaraan" method="post">
+    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">Edit Data Kendaraan</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <div class="modal-body">
+           <div class="form-group">
+               <label>Jenis Kendaraan</label>
+               <input type="text" name="jenis" class="form-control jenis" required>
+           </div>
+
+           <div class="form-group">
+               <label>Merek Kendaraan</label>
+               <input type="text" name="merek" class="form-control merek" required>
+           </div>
+
+           <div class="form-group">
+              <label>Harga Sewa</label>
+              <input type="text" name="harga_sewa"class="form-control harga_sewa" required>
+        </div>
+        </div>
+
+         <div class="modal-footer">
+           <input type="hidden" name="no_pol" class="no_pol" required>
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           <button type="submit" class="btn btn-primary">Update</button>
+         </div>
+       </div>
+     </div>
+    </div>
+</form>
+
+  <!-- Hapus Data Modal-->
+    <form id="add-row-form" action="/delete_kendaraan" method="post">
+       <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Hapus Data Kendaraan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                 </div>
+
+                 <div class="modal-body">
+                    <strong>Anda yakin akan menghapus data ini?</strong>
+                 </div>
+
+                 <div class="modal-footer">
+                    <input type="hidden" name="no_pol" class="form-control no_pol2" required>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Delete</button>
+                 </div>
+            </div>
+          </div>
+       </div>
+   </form>
+
+<script src="/public/js/jquery-3.3.1.js"></script>
+<script>
+ $(document).ready(function(){
+         //menampilkan modal untuk edit data
+   $('#mytable').on('click','.edit',function(){
+     var no_pol= $(this).data('id');
+     var jenis = $(this).data('jenis');
+     var merek = $(this).data('merek');
+     var harga_sewa = $(this).data('harga_sewa');
+     $('#EditModal').modal('show');
+     $('.jenis').val(jenis);
+     $('.merek').val(merek);
+     $('.harga_sewa').val(harga_sewa);
+     $('.no_pol').val(no_pol);
+   });
+         //menampilkan modal untuk hapus data
+  $('#mytable').on('click','.delete',function(){
+     var no_pol = $(this).data('id');
+     $('#DeleteModal').modal('show');
+     $('.no_pol2').val(no_pol);
+   });
+
+ });
+</script>
+
+{{> footer}}

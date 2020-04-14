@@ -1,0 +1,218 @@
+{{> header}} 
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid">
+            <h3 class="mt-4"></h3>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active"><h4>Tabel Data Pengembalian</h4></li>
+            </ol>
+            <div class="card mb-4">
+                <div class="card-header"><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModalAdd"> <i class="fas fa-plus fa-sm"></i> Tambah Data</button></div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="mytable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">No. Transaksi</th>
+                                    <th scope="col">Tanggal Pengembalian</th>
+                                    <th scope="col">Id Petugas</th>
+                                    <th scope="col">Id Penyewa</th>
+                                    <th scope="col">No. Pol</th>
+                                    <th scope="col">Id Denda</th>
+                                    <th scope="col">Harga</th>
+                                    <th colspan="3"  scope="col">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each results}}
+                               <tr>
+                                 <td>{{no_transaksi}}</td>
+                                 <td>{{tgl_kembali}}</td>
+                                 <td>{{id_petugas}}</td>
+                                 <td>{{id_penyewa}}</td>
+                                 <td>{{no_pol}}</td>
+                                 <td>{{id_denda}}</td>
+                                 <td>{{harga}}</td>
+                                 <td>
+                                   <a href="javascript:void(0);" class="btn btn-sm btn-info edit mb-1"
+                                   data-id="{{ no_transaksi }}" data-tgl_kembali="{{ tgl_kembali }}" data-id_petugas="{{ id_petugas }}"
+                                   data-id_penyewa="{{ id_penyewa }}" data-no_pol="{{ no_pol }}" data-id_denda="{{ id_denda }}"
+                                   data-harga="{{ harga }}"><i class="fa fa-pencil-alt"></i></a><br>
+                                   <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="{{ no_transaksi }}"><i class="fa fa-trash-alt"></i></a>
+                                 </td>
+                               </tr>
+                               {{/each}}
+                             </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+    </main>
+
+    	<!-- Menambahkan data Modal-->
+	  <form action="/save_pengembalian" method="post">
+        <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+           <div class="modal-content">
+             <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Input Data Pengembalian</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+               </button>
+             </div>
+             <div class="modal-body">
+               <div class="form-group">
+                   <label> No. Transaksi</label>
+                   <input type="text" name="no_transaksi" class="form-control" required>
+               </div>
+
+               <div class="form-group">
+                 <label> Tanggal Pengembalian</label>
+                 <input type="text" name="tgl_kembali" class="form-control" required>
+               </div>
+
+               <div class="form-group">
+                 <label> Id Petugas</label>
+                 <input type="text" name="id_petugas" class="form-control" required>
+               </div>
+
+               <div class="form-group">
+                 <label> Id Penyewa</label>
+                 <input type="text" name="id_penyewa" class="form-control" required>
+               </div>
+
+               <div class="form-group">
+                 <label> No. Pol Kendaraan</label>
+                 <input type="text" name="no_pol" class="form-control" required>
+               </div>
+
+               <div class="form-group">
+                 <label> Id Denda</label>
+                 <input type="text" name="id_denda" class="form-control" required>
+               </div>
+
+               <div class="form-group">
+                 <label> Harga</label>
+                 <input type="text" name="harga" class="form-control" required>
+               </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+            </div>
+           </div>
+         </div>
+        </div>
+	 </form>
+
+     <!-- Edit Data Modal-->
+   <form action="/update_pengembalian" method="post">
+    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">Edit Data Pengembalian</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <div class="modal-body">
+           <div class="form-group">
+               <label>Tanggal Pengembalian</label>
+               <input type="text" name="tgl_kembali" class="form-control tgl_kembali" required>
+           </div>
+
+           <div class="form-group">
+               <label>Id Petugas</label>
+               <input type="text" name="id_petugas" class="form-control id_petugas" required>
+           </div>
+
+           <div class="form-group">
+              <label>Id Penyewa</label>
+              <input type="text" name="id_penyewa"class="form-control id_penyewa" required>
+           </div>
+
+           <div class="form-group">
+              <label>No. Pol Kendaraan</label>
+              <input type="text" name="no_pol"class="form-control no_pol" required>
+           </div>
+
+           <div class="form-group">
+              <label>Id Denda</label>
+              <input type="text" name="id_denda"class="form-control id_denda" required>
+           </div>
+
+           <div class="form-group">
+              <label>Harga</label>
+              <input type="text" name="harga"class="form-control harga" required>
+           </div>
+
+        </div>
+         <div class="modal-footer">
+           <input type="hidden" name="no_transaksi" class="no_transaksi" required>
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           <button type="submit" class="btn btn-primary">Update</button>
+         </div>
+       </div>
+     </div>
+    </div>
+</form>
+
+  <!-- Hapus Data Modal-->
+    <form id="add-row-form" action="/delete_pengembalian" method="post">
+       <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Hapus Data Pengembalian</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                 </div>
+
+                 <div class="modal-body">
+                    <strong>Anda yakin akan menghapus data ini?</strong>
+                 </div>
+
+                 <div class="modal-footer">
+                    <input type="hidden" name="no_transaksi" class="form-control no_transaksi2" required>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Delete</button>
+                 </div>
+              </div>
+          </div>
+       </div>
+   </form>
+
+<script src="/public/js/jquery-3.3.1.js"></script>
+<script>
+ $(document).ready(function(){
+         //menampilkan modal untuk edit data
+   $('#mytable').on('click','.edit',function(){
+     var no_transaksi= $(this).data('id');
+     var tgl_kembali = $(this).data('tgl_kembali');
+     var id_petugas = $(this).data('id_petugas');
+     var id_penyewa = $(this).data('id_penyewa');
+     var no_pol = $(this).data('no_pol');
+     var id_denda = $(this).data('id_denda');
+     var harga = $(this).data('harga');
+     $('#EditModal').modal('show');
+     $('.tgl_kembali').val(tgl_kembali);
+     $('.id_petugas').val(id_petugas);
+     $('.id_penyewa').val(id_penyewa);
+     $('.no_pol').val(no_pol);
+     $('.id_denda').val(id_denda);
+     $('.harga').val(harga);
+     $('.no_transaksi').val(no_transaksi);
+   });
+         //menampilkan modal untuk hapus data
+  $('#mytable').on('click','.delete',function(){
+     var no_transaksi = $(this).data('id');
+     $('#DeleteModal').modal('show');
+     $('.no_transaksi2').val(no_transaksi);
+   });
+
+ });
+</script>
+
+{{> footer}}

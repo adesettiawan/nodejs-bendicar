@@ -1,0 +1,197 @@
+{{> header}} 
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid">
+            <h3 class="mt-4"></h3>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active"><h4>Tabel Data Petugas</h4></li>
+            </ol>
+            <div class="card mb-4">
+                <div class="card-header"><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModalAdd"> <i class="fas fa-plus fa-sm"></i> Tambah Data</button></div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="mytable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Id Petugas</th>
+                                    <th scope="col">Nama</th>
+                                    <th scope="col">Gender</th>
+                                    <th scope="col">Jabatan</th>
+                                    <th scope="col">Gaji</th>
+                                    <th colspan="3"  scope="col">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each results}}
+                               <tr>
+                                 <td>{{id_petugas}}</td>
+                                 <td>{{nm_petugas}}</td>
+                                 <td>{{jk}}</td>
+                                 <td>{{jabatan}}</td>
+                                 <td>{{gaji}}</td>
+                                 <td>
+                                   <a href="javascript:void(0);" class="btn btn-sm btn-info edit mb-1"
+                                   data-id="{{ id_petugas }}" data-nm_petugas="{{ nm_petugas }}" data-jk="{{ jk }}"
+                                   data-jabatan="{{ jabatan }}" data-gaji="{{ gaji }}"><i class="fa fa-pencil-alt"></i></a><br>
+                                   <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="{{ id_petugas }}"><i class="fa fa-trash-alt"></i></a>
+                                 </td>
+                               </tr>
+                               {{/each}}
+                             </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+    </main>
+
+    	<!-- Menambahkan data Modal-->
+	  <form action="/save_petugas" method="post">
+        <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+           <div class="modal-content">
+             <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Input Data Petugas</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+               </button>
+             </div>
+             <div class="modal-body">
+               <div class="form-group">
+                   <label> Id Petugas</label>
+                   <input type="text" name="id_petugas" class="form-control" required>
+               </div>
+
+               <div class="form-group">
+                 <label> Nama Petugas</label>
+                 <input type="text" name="nm_petugas" class="form-control" required>
+               </div>
+
+               <div class="form-group">
+                 <label> Jenis Kelamin</label>
+                <select name="jk" class="form-control" required>
+                    <option value="L">Laki-laki</option>
+                    <option value="P">Perempuan</option>
+                </select>
+               </div>
+
+            <div class="form-group">
+                <label> Jabatan</label>
+                <select name="jabatan" class="form-control" required>
+                    <option value="Direktur">Direktur</option>
+                    <option value="Manajer">Manajer</option>
+                    <option value="Kasir">Kasir</option>
+                    <option value="Supir">Supir</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label> Gaji</label>
+                <input type="text" name="gaji" class="form-control" required>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+            </div>
+           </div>
+         </div>
+        </div>
+	 </form>
+
+     <!-- Edit Data Modal-->
+   <form action="/update_petugas" method="post">
+    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">Edit Data Petugas</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <div class="modal-body">
+           <div class="form-group">
+               <label>Nama Petugas</label>
+               <input type="text" name="nm_petugas" class="form-control nm_petugas" required>
+           </div>
+
+           <div class="form-group">
+               <label>Jenis Kelamin</label>
+               <input type="text" name="jk" class="form-control jk" required>
+           </div>
+
+           <div class="form-group">
+              <label>Jabatan</label>
+              <input type="text" name="jabatan"class="form-control jabatan" required>
+        </div>
+
+        <div class="form-group">
+              <label>Gaji</label>
+              <input type="text" name="gaji" class="form-control gaji" required>
+        </div>
+
+        </div>
+         <div class="modal-footer">
+           <input type="hidden" name="id_petugas" class="id_petugas" required>
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           <button type="submit" class="btn btn-primary">Update</button>
+         </div>
+       </div>
+     </div>
+    </div>
+</form>
+
+  <!-- Hapus Data Modal-->
+    <form id="add-row-form" action="/delete_petugas" method="post">
+       <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Hapus Data Penyewa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                 </div>
+
+                 <div class="modal-body">
+                    <strong>Anda yakin akan menghapus data ini?</strong>
+                 </div>
+
+                 <div class="modal-footer">
+                    <input type="hidden" name="id_petugas" class="form-control id_petugas2" required>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Delete</button>
+                 </div>
+            </div>
+          </div>
+       </div>
+   </form>
+
+<script src="/public/js/jquery-3.3.1.js"></script>
+<script>
+ $(document).ready(function(){
+         //menampilkan modal untuk edit data
+   $('#mytable').on('click','.edit',function(){
+     var id_petugas= $(this).data('id');
+     var nm_petugas = $(this).data('nm_petugas');
+     var jk = $(this).data('jk');
+     var jabatan = $(this).data('jabatan');
+     var gaji = $(this).data('gaji');
+     $('#EditModal').modal('show');
+     $('.nm_petugas').val(nm_petugas);
+     $('.jk').val(jk);
+     $('.jabatan').val(jabatan);
+     $('.gaji').val(gaji);
+     $('.id_petugas').val(id_petugas);
+   });
+         //menampilkan modal untuk hapus data
+  $('#mytable').on('click','.delete',function(){
+     var id_petugas = $(this).data('id');
+     $('#DeleteModal').modal('show');
+     $('.id_petugas2').val(id_petugas);
+   });
+
+ });
+</script>
+
+{{> footer}}

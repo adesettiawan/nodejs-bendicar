@@ -1,0 +1,192 @@
+{{> header}} 
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid">
+            <h3 class="mt-4"></h3>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active"><h4>Tabel Data Penyewa</h4></li>
+            </ol>
+            <div class="card mb-4">
+                <div class="card-header"><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModalAdd"> <i class="fas fa-plus fa-sm"></i> Tambah Data</button></div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="mytable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Id Penyewa</th>
+                                    <th scope="col">Nama</th>
+                                    <th scope="col">Gender</th>
+                                    <th scope="col">Alamat</th>
+                                    <th scope="col">Telephone</th>
+                                    <th colspan="3"  scope="col">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each results}}
+                               <tr>
+                                 <td>{{id_penyewa}}</td>
+                                 <td>{{nm_penyewa}}</td>
+                                 <td>{{jk}}</td>
+                                 <td>{{alamat_penyewa}}</td>
+                                 <td>{{no_hp}}</td>
+                                 <td>
+                                   <a href="javascript:void(0);" class="btn btn-sm btn-info edit mb-1"
+                                   data-id="{{ id_penyewa }}" data-nm_penyewa="{{ nm_penyewa }}" data-jk="{{ jk }}"
+                                   data-alamat_penyewa="{{ alamat_penyewa }}" data-no_hp="{{ no_hp }}"><i class="fa fa-pencil-alt"></i></a><br>
+                                   <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="{{ id_penyewa }}"><i class="fa fa-trash-alt"></i></a>
+                                 </td>
+                               </tr>
+                               {{/each}}
+                             </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+    </main>
+
+    	<!-- Menambahkan data Modal-->
+	  <form action="/save" method="post">
+        <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+           <div class="modal-content">
+             <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Input Data Penyewa</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+               </button>
+             </div>
+             <div class="modal-body">
+               <div class="form-group">
+                   <label> Id Penyewa</label>
+                   <input type="text" name="id_penyewa" class="form-control" required>
+               </div>
+
+               <div class="form-group">
+                 <label> Nama Penyewa</label>
+                 <input type="text" name="nm_penyewa" class="form-control" required>
+               </div>
+
+               <div class="form-group">
+                 <label> Jenis Kelamin</label>
+                 <select name="jk" class="form-control">
+                   <option value="L">Laki-laki</option>
+                   <option value="P">Perempuan</option>
+                 </select>
+               </div>
+
+            <div class="form-group">
+                <label> Alamat Penyewa</label>
+                <input type="text" name="alamat_penyewa" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label>Telephone</label>
+                <input type="text" name="no_hp" class="form-control" required>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+            </div>
+           </div>
+         </div>
+        </div>
+	 </form>
+
+     <!-- Edit Data Modal-->
+   <form action="/update" method="post">
+    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">Edit Data Penyewa</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <div class="modal-body">
+           <div class="form-group">
+               <label>Nama Penyewa</label>
+               <input type="text" name="nm_penyewa" class="form-control nm_penyewa" required>
+           </div>
+
+           <div class="form-group">
+               <label>Jenis Kelamin</label>
+               <input type="text" name="jk" class="form-control jk" required>
+           </div>
+
+           <div class="form-group">
+              <label>Alamat Penyewa</label>
+              <input type="text" name="alamat_penyewa"class="form-control alamat_penyewa" required>
+        </div>
+
+        <div class="form-group">
+              <label>Telephone</label>
+              <input type="text" name="no_hp" class="form-control no_hp" required>
+        </div>
+
+        </div>
+         <div class="modal-footer">
+           <input type="hidden" name="id_penyewa" class="id_penyewa" required>
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           <button type="submit" class="btn btn-primary">Update</button>
+         </div>
+       </div>
+     </div>
+    </div>
+</form>
+
+  <!-- Hapus Data Modal-->
+    <form id="add-row-form" action="/delete" method="post">
+       <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Hapus Data Penyewa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                 </div>
+
+                 <div class="modal-body">
+                    <strong>Anda yakin akan menghapus data ini?</strong>
+                 </div>
+
+                 <div class="modal-footer">
+                    <input type="hidden" name="id_penyewa" class="form-control id_penyewa2" required>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Delete</button>
+                 </div>
+              </div>
+          </div>
+       </div>
+   </form>
+
+<script src="/public/js/jquery-3.3.1.js"></script>
+<script>
+ $(document).ready(function(){
+         //menampilkan modal untuk edit data
+   $('#mytable').on('click','.edit',function(){
+     var id_penyewa= $(this).data('id');
+     var nm_penyewa = $(this).data('nm_penyewa');
+     var jk = $(this).data('jk');
+     var alamat_penyewa = $(this).data('alamat_penyewa');
+     var no_hp = $(this).data('no_hp');
+     $('#EditModal').modal('show');
+     $('.nm_penyewa').val(nm_penyewa);
+     $('.jk').val(jk);
+     $('.alamat_penyewa').val(alamat_penyewa);
+     $('.no_hp').val(no_hp);
+     $('.id_penyewa').val(id_penyewa);
+   });
+         //menampilkan modal untuk hapus data
+  $('#mytable').on('click','.delete',function(){
+     var id_penyewa = $(this).data('id');
+     $('#DeleteModal').modal('show');
+     $('.id_penyewa2').val(id_penyewa);
+   });
+
+ });
+</script>
+
+{{> footer}}
