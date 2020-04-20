@@ -1,4 +1,5 @@
 var express = require("express");
+var session = require('express-session');
 var path = require('path');
 var hbs = require('hbs');
 var Handlebars = require("express-handlebars");
@@ -13,6 +14,12 @@ app.set('view engine', 'hbs');
 app.set('views',path.join(__dirname, 'views'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(session({
+	secret: 'secret',
+	resave: true,
+	saveUninitialized: true
+}));
 
 //menyambungkan database menggunakan mysql server
 var mysql=require('mysql');
@@ -30,13 +37,84 @@ connection.connect(function(error){
    }
  });  
 
-// app.get("/product", function(req, res){
-//     res.send("Hello");
-// });
+ app.post('/auth', function(req, res) {
+	var username = req.body.username;
+	var password = req.body.password;
+	if (username && password) {
+		connection.query('SELECT * FROM login WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
+			if (results.length > 0) {
+				req.session.loggedin = true;
+				req.session.username = username;
+				res.redirect('/customer');
+			} else {
+				res.send('Nama atau password anda salah!');
+			}			
+			res.end();
+		});
+	} else {
+		res.send('Masukan Nama dan Password anda!');
+		res.end();
+	}
+});
 
-app.get("/", function(req, res){
+//login akun
+app.get('/', function(req, res) {
+	res.render('login');
+});
+
+//register akun
+app.get('/register', function(req, res) {
+	res.render('register');
+});
+
+//logout akun
+app.get('/logout', function(req, res){
+  req.session.loggedin = false;
+  res.redirect('/')
+});
+
+app.post('/save_register',(req, res) => {
+  let data = {id: req.body.id, username: req.body.username,password: req.body.password};
+  let sql = "INSERT INTO login SET ?";
+  let query = connection.query(sql, data,(err, results) => {
+      if(err) throw err;
+        res.redirect('/');
+      });
+    });
+
+app.get('/admin', function(req, res){
     res.render("layouts/home");
 });
+
+app.get('/customer', function(req, res){
+  let sql = "SELECT * FROM kendaraan";
+  let query = connection.query(sql, (err, results) => {
+    if(err) throw err;
+  res.render('customer',{
+  results: results
+    });
+  });
+});
+
+app.get('/detail', function(req, res){
+  let sql = "SELECT * FROM kendaraan";
+  let query = connection.query(sql, (err, results) => {
+    if(err) throw err;
+  res.render('detail',{
+  results: results
+    });
+  });
+});
+
+app.post('/save_rental',(req, res) => {
+  let data = {id_penyewa: req.body.id_penyewa, nm_penyewa: req.body.nm_penyewa,jk: req.body.jk,
+      alamat_penyewa: req.body.alamat_penyewa,no_hp: req.body.no_hp};
+  let sql = "INSERT INTO penyewa SET ?";
+  let query = connection.query(sql, data,(err, results) => {
+      if(err) throw err;
+        res.redirect('/customer');
+      });
+    });
 
 //menampilkan data penyewa
 app.get('/penyewa',(req, res) => {
@@ -191,7 +269,7 @@ app.post('/update_petugas',(req, res) => {
 
  //edit data kendaraan
  app.post('/update_kendaraan',(req, res) => {
-  let sql = "UPDATE kendaraan SET jenis='"+req.body.jenis+"', merek='"+req.body.merek+"', harga_sewa='"+req.body.harga_sewa+"' WHERE no_pol="+req.body.no_pol;
+  let sql = "UPDATE kendaraan SET jenis='"+req.body.jenis+"', merek='"+req.body.merek+"', harga_sewa='"+req.body.harga_sewa+"' WHERE no_pol="+connection.escape(req.body.no_pol);
   let query = connection.query(sql, (err, results) => {
   if(err) throw err;
   res.redirect('/kendaraan');
@@ -245,7 +323,7 @@ app.post('/delete_petugas',(req, res) => {
 
 //hapus data kendaraan
 app.post('/delete_kendaraan',(req, res) => {
-  let sql = "DELETE FROM kendaraan WHERE no_pol="+req.body.no_pol+"";
+  let sql = "DELETE FROM kendaraan WHERE no_pol="+ connection.escape(req.body.no_pol);
   let query = connection.query(sql, (err, results) => {
     if(err) throw err;
       res.redirect('/kendaraan');
